@@ -6,12 +6,19 @@ namespace CairneyDaniel
 {
 
 
-    public class BoxCollider : MonoBehaviour
+    public class BlockActivator : MonoBehaviour
     {
-        [SerializeField] private GameObject block;
+        private GameObject block;
         [SerializeField] private Material Intangible;
         [SerializeField] private Material Tangible;
-       
+
+
+        private void Start()
+        {
+            block = gameObject;
+        }
+
+
         private void TurnTangible()
         {
             if (block.GetComponent<BoxCollider>().enabled == true)
@@ -41,7 +48,18 @@ namespace CairneyDaniel
 
         }
 
+        private void OnEnable()
+        {
+            EventManager.OnButtonEnable += TurnTangible;
+            EventManager.OnButtonDisable += TurnIntangible;
+        }
 
-
+        private void OnDisable()
+        {
+            EventManager.OnButtonEnable -= TurnTangible;
+            EventManager.OnButtonDisable -= TurnIntangible;
+        }
     }
+
+
 }
